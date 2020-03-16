@@ -8,6 +8,7 @@ $Username="root";
 $Password ="Wranlanda02";
 
 $error_msg="";
+$success_msg="";
 
 //List of emails in used (for validation test)
 $used_emails= ['emile@outlook.com',
@@ -81,12 +82,11 @@ $conn= new PDO("mysql:host=$hostname;dbname=$db", $Username, $Password);
 				$add_usr= $conn->prepare("INSERT INTO accounts(email, password, dob) VALUES(:email, :password, :dob)");
 				$conn->beginTransaction();
 				$add_usr-> execute(array(':email'=>$email,
-										 ':password'=>$password,
-										 ':dob'=>$dob));
+							 ':password'=>$password,
+							 ':dob'=>$dob));
 				$conn->commit();
-			    $conn->null;
-				header("Location:registration.php");
-			    exit;
+				
+				$success_msg.="<p>Account was successfully created</p>";
 			}
 		
 		}
@@ -119,16 +119,13 @@ $conn= new PDO("mysql:host=$hostname;dbname=$db", $Username, $Password);
 			
 			<button type="submit" name="register">Create</button>
 			
-			<div class="error">
+			<div class="status">
 				<?php echo '<span style="font-family:Roboto,sans-serif;color:red;">'.$error_msg.'</span>';?>
+				<?php echo '<span style="font-family:Roboto,sans-serif;color:green;">'.$success_msg.'</span>';?>
 			</div>
 		</div>		
 	</form>
 	</div>
-
-
-
-
 
 </body>
 </html>
